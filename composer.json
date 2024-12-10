@@ -1,0 +1,11 @@
+{
+    "name": "lucasmota/reservations-projet",
+    "autoload": {
+        "psr-4": {
+            "Lucasmota\\ReservationsProjet\\": "src/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
