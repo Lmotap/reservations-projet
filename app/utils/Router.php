@@ -18,9 +18,35 @@ class Router{
     // Découpe en tableau l'URL
     $url = explode('/', $url);
 
-    if($url[0] === 'activities' && isset($url[1]) && $url[1] === 'test') {
-        $activiteModel = new ActiviteModel();
-        require_once './app/views/activities/test.php';
+    if($url[0] === 'activities') {
+        require_once './app/controllers/ActivityController.php';
+        $controller = new ActivityController();
+        
+        if(!isset($url[1])) {
+            $controller->index();
+            exit;
+        }
+        
+        switch($url[1]) {
+            case 'show':
+                if(isset($url[2])) {
+                    $controller->show((int)$url[2]);
+                }
+                break;
+            case 'update':
+                if(isset($url[2])) {
+                    $controller->update((int)$url[2]);
+                }
+                break;
+            case 'delete':
+                if(isset($url[2])) {
+                    $controller->delete((int)$url[2]);
+                }
+                break;
+            case 'test':
+                require_once './app/views/activities/test.php';
+                break;
+        }
         exit;
     }
 
