@@ -45,4 +45,58 @@ class ActiviteModel extends Bdd {
             return 0;
         }
     }
+
+    public function updateActivity(int $id, array $data): bool 
+    {
+        try {
+            $stmt = $this->db->prepare('
+                UPDATE activities 
+                SET nom = :nom, 
+                    type_id = :type_id, 
+                    places_disponibles = :places_disponibles, 
+                    description = :description, 
+                    datetime_debut = :datetime_debut, 
+                    duree = :duree 
+                WHERE id = :id
+            ');
+            
+            return $stmt->execute([
+                'id' => $id,
+                'nom' => $data['nom'],
+                'type_id' => $data['type_id'],
+                'places_disponibles' => $data['places_disponibles'],
+                'description' => $data['description'],
+                'datetime_debut' => $data['datetime_debut'],
+                'duree' => $data['duree']
+            ]);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
+    public function deleteActivity(int $id): bool 
+    {
+        try {
+            // Commencer une transaction
+            $this->db->beginTransaction();
+            
+            // Supprimer d'abord les réservations associées
+            $stmt = $this->db->prepare('DELETE FROM reservations WHERE activity_id = :id');
+            $stmt->execute(['id' => $id]);
+            
+            // Puis supprimer l'activité
+            $stmt = $this->db->prepare('DELETE FROM activities WHERE id = :id');
+            $result = $stmt->execute(['id' => $id]);
+            
+            // Valider la transaction
+            $this->db->commit();
+            return $result;
+        } catch (PDOException $e) {
+            // En cas d'erreur, annuler la transaction
+            $this->db->rollBack();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
 }
