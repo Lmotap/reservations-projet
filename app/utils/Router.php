@@ -5,6 +5,29 @@ require_once './app/controllers/ActivityController.php';
 require_once './app/models/ActiviteModel.php';
 
 class Router{
+  // Define protected routes that require authentication
+  private $protectedRoutes = [
+      'activities',
+      'dashboard',
+      'user/profile'
+  ];
+
+  // Define admin-only routes
+  private $adminRoutes = [
+      'activities/create',
+      'activities/update',
+      'activities/delete',
+      'activities/test'
+  ];
+
+  private $publicRoutes = [
+      '',
+      'login',
+      'register',
+      'user/login',
+      'user/register'
+  ];
+
   public function dispatch($url)
   {
     // Suppression des / en début et fin de chaine
@@ -14,6 +37,27 @@ class Router{
     if(empty($url)){
       require_once './app/views/users/login.php';
       exit;
+    }
+
+    // Check if the route requires authentication
+    if (!in_array($url, $this->publicRoutes)) {
+        require_once './app/utils/AuthMiddleware.php';
+        AuthMiddleware::isAuthenticated();
+    }
+
+    // Check authentication for protected routes
+    $currentRoute = explode('/', $url)[0];
+    
+    if (in_array($currentRoute, $this->protectedRoutes) && !isset($_SESSION['user'])) {
+        header('Location: /login');
+        exit;
+    }
+    
+    // Check admin rights for admin routes
+    if (in_array($url, $this->adminRoutes) && 
+        (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin')) {
+        header('Location: /activities');
+        exit;
     }
 
     // Découpe en tableau l'URL
@@ -77,6 +121,12 @@ class Router{
       }
       require_once './app/views/dashboard.php';
       exit;
+    }
+
+    if($url[0] === 'logout') {
+        $controller = new UserController();
+        $controller->logout();
+        exit;
     }
 
     // Défini le nom du controller

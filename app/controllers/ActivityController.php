@@ -1,33 +1,25 @@
 <?php
 
 require_once './app/models/ActiviteModel.php';
+require_once './app/utils/AuthMiddleware.php';
 
 class ActivityController {
     private ActiviteModel $activiteModel;
 
     public function __construct() {
+        require_once './app/utils/AuthMiddleware.php';
         $this->activiteModel = new ActiviteModel();
     }
 
     public function index() {
-        // Vérifier si l'utilisateur est connecté
-        if (!isset($_SESSION['user'])) {
-            header('Location: /login');
-            exit;
-        }
-
+        AuthMiddleware::isAuthenticated();
         $activities = $this->activiteModel->getAllActivities();
         $isAdmin = $_SESSION['user']['role'] === 'admin';
-
         require_once './app/views/activities/index.php';
     }
 
     public function show(int $id) {
-        if (!isset($_SESSION['user'])) {
-            header('Location: /login');
-            exit;
-        }
-
+        AuthMiddleware::isAuthenticated();
         $activity = $this->activiteModel->getActivityById($id);
         if (empty($activity)) {
             require_once './app/views/errors/404.php';
@@ -38,12 +30,13 @@ class ActivityController {
         require_once './app/views/activities/show.php';
     }
 
-    public function update(int $id) {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /login');
-            exit;
-        }
+    public function create() {
+        AuthMiddleware::isAdmin();
+        require_once './app/views/activities/create.php';
+    }
 
+    public function update(int $id) {
+        AuthMiddleware::isAdmin();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
                 'nom' => $_POST['nom'] ?? '',
@@ -61,39 +54,21 @@ class ActivityController {
         }
 
         $activity = $this->activiteModel->getActivityById($id);
-        if (empty($activity)) {
-            require_once './app/views/errors/404.php';
-            exit;
-        }
-
         require_once './app/views/activities/edit.php';
     }
 
     public function delete(int $id) {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /login');
-            exit;
-        }
-
+        AuthMiddleware::isAdmin();
         if ($this->activiteModel->deleteActivity($id)) {
             header('Location: /activities');
-            exit;
+        } else {
+            header('Location: /activities/show/' . $id);
         }
-
-        // En cas d'échec de la suppression
-        header('Location: /activities/show/' . $id);
-    }
-
-    public function create() {
-        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
-            header('Location: /login');
-            exit;
-        }
-        
-        require_once './app/views/activities/create.php';
+        exit;
     }
 
     public function store() {
+        AuthMiddleware::isAdmin();
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
             header('Location: /login');
             exit;

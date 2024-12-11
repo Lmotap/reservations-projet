@@ -1,14 +1,9 @@
 <?php
-// Debugging
-error_log('GET parameters: ' . print_r($_GET, true));
-if (isset($_GET['activity_id'])) {
-    $activity = $activiteModel->getActivityById((int)$_GET['activity_id']);
-    error_log('Activity data: ' . print_r($activity, true));
-}
+require_once './app/utils/AuthMiddleware.php';
+AuthMiddleware::isAdmin();
 ?>
-
 <!DOCTYPE html>
-<html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

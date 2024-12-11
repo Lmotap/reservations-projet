@@ -1,3 +1,7 @@
+<?php
+require_once './app/utils/AuthMiddleware.php';
+AuthMiddleware::isAuthenticated();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
