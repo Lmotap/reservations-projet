@@ -82,7 +82,7 @@ class ActiviteModel extends Bdd {
             $this->db->beginTransaction();
             
             // Supprimer d'abord les réservations associées
-            $stmt = $this->db->prepare('DELETE FROM reservations WHERE activity_id = :id');
+            $stmt = $this->db->prepare('DELETE FROM reservations WHERE activite_id = :id');
             $stmt->execute(['id' => $id]);
             
             // Puis supprimer l'activité
@@ -95,6 +95,28 @@ class ActiviteModel extends Bdd {
         } catch (PDOException $e) {
             // En cas d'erreur, annuler la transaction
             $this->db->rollBack();
+            error_log($e->getMessage());
+            return false;
+        }
+    }
+
+    public function createActivity(array $data): bool 
+    {
+        try {
+            $stmt = $this->db->prepare(
+                'INSERT INTO activities (nom, type_id, places_disponibles, description, datetime_debut, duree) 
+                 VALUES (:nom, :type_id, :places_disponibles, :description, :datetime_debut, :duree)'
+            );
+            
+            return $stmt->execute([
+                'nom' => $data['nom'],
+                'type_id' => $data['type_id'],
+                'places_disponibles' => $data['places_disponibles'],
+                'description' => $data['description'],
+                'datetime_debut' => $data['datetime_debut'],
+                'duree' => $data['duree']
+            ]);
+        } catch (PDOException $e) {
             error_log($e->getMessage());
             return false;
         }
