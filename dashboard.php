@@ -1,5 +1,7 @@
 <?php
-session_start();
+
+require_once './app/utils/AuthMiddleware.php';
+AuthMiddleware::isAuthenticated();  
 
 if (!isset($_SESSION['email'])) {
     header('Location: /index.php');

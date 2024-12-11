@@ -2,6 +2,14 @@
 
 class UserController {
   
+    private $userModel;
+
+    public function __construct() {
+        require_once './app/utils/AuthMiddleware.php';
+        require_once './app/models/UserModel.php';
+        $this->userModel = new UserModel();
+    }
+
     public function index() {
         require_once './app/views/users/login.php';
     }
@@ -71,10 +79,12 @@ class UserController {
   
   
     public function logout() {
-      unset($_SESSION['user']);
-      header('location: /login');
-      exit;
-  }
+        AuthMiddleware::isAuthenticated();
+        unset($_SESSION['user']);
+        session_destroy();
+        header('location: /login');
+        exit;
+    }
 
     public function register()
     {
@@ -136,12 +146,14 @@ class UserController {
 
     public function login()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $userModel = new UserModel();
-            if ($userModel->login($_POST)) {
-                header('Location: /dashboard');
-                exit;
-            }
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            require_once './app/views/users/login.php';
+            return;
+        }
+
+        if ($this->userModel->login($_POST)) {
+            header('Location: /dashboard');
+            exit;
         }
         
         $logged = isset($_SESSION['user']);

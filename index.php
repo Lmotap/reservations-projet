@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 require_once __DIR__ . '/vendor/autoload.php';
@@ -13,12 +14,8 @@ $publicRoutes = [
     '', // empty route
     'user/login',
     'user/register',
-    'dashboard',
     'register',
     'login',
-    'activities/test',
-    'activities',
-    'activities/show',
 ];
 
 // Get current route
@@ -30,6 +27,22 @@ if (!isset($_SESSION['user']) && !in_array($currentRoute, $publicRoutes)) {
     exit;
 }
 
-// Initialisation du router
+// Check admin routes
+$adminRoutes = [
+    'activities/create',
+    'activities/update',
+    'activities/delete',
+    'activities/test',
+    'users/manage'
+];
+
+// If route requires admin access but user is not admin, redirect
+if (in_array($currentRoute, $adminRoutes) && 
+    (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin')) {
+    header('Location: /activities');
+    exit;
+}
+
+// Initialize router
 $router = new Router();
 $router->dispatch($_SERVER['REQUEST_URI']);
