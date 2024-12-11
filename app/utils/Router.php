@@ -22,6 +22,47 @@ class Router{
         $activiteModel = new ActiviteModel();
         require_once './app/views/activities/test.php';
         exit;
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+      }
+
+      switch($url[1]) {
+        case 'show':
+          if(isset($url[2])) {
+            $controller->show((int)$url[2]);
+          }
+          break;
+        case 'test':
+          require_once './app/views/activities/test.php';
+          break;
+<<<<<<< Updated upstream
+      }
+      exit;
+=======
+        case 'delete':
+          if(isset($url[2])) {
+            error_log("Router: Delete route hit with ID: " . $url[2]);
+            error_log("Request Method: " . $_SERVER['REQUEST_METHOD']);
+            if($_SERVER['REQUEST_METHOD'] === 'POST') {
+              $controller->delete((int)$url[2]);
+            }
+          }
+          break;
+        case 'update':
+          if(isset($url[2])) {
+            $controller->update((int)$url[2]);
+          }
+          break;
+      }
+      exit;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
     }
 
     // Gestion des routes spéciales

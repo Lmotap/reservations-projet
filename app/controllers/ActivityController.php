@@ -70,17 +70,36 @@ class ActivityController {
     }
 
     public function delete(int $id) {
+        error_log("ActivityController: Delete method called for ID: " . $id);
+        
+        // Vérification de l'authentification
         if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            error_log("ActivityController: User not authorized to delete");
             header('Location: /login');
             exit;
         }
 
-        if ($this->activiteModel->deleteActivity($id)) {
+        // Vérification que l'activité existe
+        $activity = $this->activiteModel->getActivityById($id);
+        if (empty($activity)) {
+            error_log("ActivityController: Activity not found");
             header('Location: /activities');
             exit;
         }
 
-        // En cas d'échec de la suppression
+        // Tentative de suppression
+        $result = $this->activiteModel->deleteActivity($id);
+        error_log("ActivityController: Delete result: " . ($result ? 'true' : 'false'));
+
+        if ($result) {
+            error_log("ActivityController: Activity deleted successfully");
+            header('Location: /activities');
+            exit;
+        }
+
+        // En cas d'échec
+        error_log("ActivityController: Failed to delete activity");
         header('Location: /activities/show/' . $id);
+        exit;
     }
 }

@@ -78,24 +78,37 @@ class ActiviteModel extends Bdd {
     public function deleteActivity(int $id): bool 
     {
         try {
-            // Commencer une transaction
+            error_log("ActiviteModel: Starting delete transaction for ID: " . $id);
+            
             $this->db->beginTransaction();
             
-            // Supprimer d'abord les réservations associées
-            $stmt = $this->db->prepare('DELETE FROM reservations WHERE activity_id = :id');
+            // Vérifier si l'activité existe
+            $stmt = $this->db->prepare('SELECT id FROM activities WHERE id = :id');
+            $stmt->execute(['id' => $id]);
+            if (!$stmt->fetch()) {
+                error_log("ActiviteModel: Activity not found");
+                return false;
+            }
+            
+            // Supprimer les réservations
+            $stmt = $this->db->prepare('DELETE FROM reservations WHERE activite_id = :id');
             $stmt->execute(['id' => $id]);
             
-            // Puis supprimer l'activité
+            // Supprimer l'activité
             $stmt = $this->db->prepare('DELETE FROM activities WHERE id = :id');
             $result = $stmt->execute(['id' => $id]);
             
-            // Valider la transaction
-            $this->db->commit();
-            return $result;
-        } catch (PDOException $e) {
-            // En cas d'erreur, annuler la transaction
+            if ($result) {
+                $this->db->commit();
+                error_log("ActiviteModel: Delete successful");
+                return true;
+            }
+            
             $this->db->rollBack();
-            error_log($e->getMessage());
+            return false;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            error_log("ActiviteModel: Error during delete: " . $e->getMessage());
             return false;
         }
     }
