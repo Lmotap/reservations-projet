@@ -16,7 +16,9 @@ $publicRoutes = [
     'dashboard',
     'register',
     'login',
-    'activities/test'
+    'activities/test',
+    'activities',
+    'activities/show',
 ];
 
 // Get current route

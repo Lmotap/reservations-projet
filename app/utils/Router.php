@@ -1,6 +1,7 @@
 <?php
 
 require_once './app/controllers/UserController.php';
+require_once './app/controllers/ActivityController.php';
 require_once './app/models/ActiviteModel.php';
 
 class Router{
@@ -18,10 +19,26 @@ class Router{
     // Découpe en tableau l'URL
     $url = explode('/', $url);
 
-    if($url[0] === 'activities' && isset($url[1]) && $url[1] === 'test') {
-        $activiteModel = new ActiviteModel();
-        require_once './app/views/activities/test.php';
+    // Gestion des routes pour les activités
+    if($url[0] === 'activities') {
+      $controller = new ActivityController();
+      
+      if(!isset($url[1])) {
+        $controller->index();
         exit;
+      }
+
+      switch($url[1]) {
+        case 'show':
+          if(isset($url[2])) {
+            $controller->show((int)$url[2]);
+          }
+          break;
+        case 'test':
+          require_once './app/views/activities/test.php';
+          break;
+      }
+      exit;
     }
 
     // Gestion des routes spéciales
