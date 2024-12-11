@@ -34,6 +34,22 @@ class Router{
             $controller->show((int)$url[2]);
           }
           break;
+        case 'update':
+          if(isset($url[2])) {
+            $controller->update((int)$url[2]);
+          }
+          break;
+        case 'delete':
+          if(isset($url[2])) {
+            $controller->delete((int)$url[2]);
+          }
+          break;
+        case 'create':
+          $controller->create();
+          break;
+        case 'store':
+          $controller->store();
+          break;
         case 'test':
           require_once './app/views/activities/test.php';
           break;

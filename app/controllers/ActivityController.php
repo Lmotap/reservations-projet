@@ -83,4 +83,40 @@ class ActivityController {
         // En cas d'échec de la suppression
         header('Location: /activities/show/' . $id);
     }
+
+    public function create() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: /login');
+            exit;
+        }
+        
+        require_once './app/views/activities/create.php';
+    }
+
+    public function store() {
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: /login');
+            exit;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = [
+                'nom' => $_POST['nom'] ?? '',
+                'type_id' => (int)($_POST['type_id'] ?? 0),
+                'places_disponibles' => (int)($_POST['places_disponibles'] ?? 0),
+                'description' => $_POST['description'] ?? '',
+                'datetime_debut' => $_POST['datetime_debut'] ?? '',
+                'duree' => (int)($_POST['duree'] ?? 0)
+            ];
+
+            if ($this->activiteModel->createActivity($data)) {
+                header('Location: /activities');
+                exit;
+            }
+        }
+
+        // If something went wrong, redirect back to create form
+        header('Location: /activities/create');
+        exit;
+    }
 }
