@@ -32,7 +32,13 @@ $users = $userModel->getAllUsers();
                         <a href="/activities" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
                             Activités
                         </a>
+                        <a href="/reservations" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
+                            Mes Réservations
+                        </a>
                         <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+                            <a href="/reservations/list" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
+                                Toutes les Réservations
+                            </a>
                             <a href="/activities/test" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md">
                                 Test Activités
                             </a>
