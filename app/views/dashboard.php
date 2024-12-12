@@ -1,6 +1,11 @@
 <?php
 require_once './app/utils/AuthMiddleware.php';
+require_once './app/models/UserModel.php';
 AuthMiddleware::isAuthenticated();
+$userModel = new UserModel();
+$users = $userModel->getAllUsers();
+
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -99,6 +104,53 @@ AuthMiddleware::isAuthenticated();
                 </div>
             </div>
         </div>
+
+        <?php if ($_SESSION['user']['role'] === 'admin'): ?>
+            <!-- Users Section (Admin Only) -->
+            <div class="bg-white shadow-sm rounded-lg overflow-hidden mt-8">
+                <div class="px-4 py-5 sm:p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Liste des Utilisateurs</h2>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prénom</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rôle</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <?php foreach ($users as $user): ?>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        #<?php echo htmlspecialchars($user->getId()); ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        <?php echo htmlspecialchars($user->getNom()); ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <?php echo htmlspecialchars($user->getPrenom()); ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        <?php echo htmlspecialchars($user->getEmail()); ?>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                            <?php echo $user->getRole() === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-green-100 text-green-800'; ?>">
+                                            <?php echo htmlspecialchars($user->getRole()); ?>
+                                        </span>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </main>
 </body>
 </html>
