@@ -1,58 +1,72 @@
 <?php
 
-class Reservation {
+class Reservation
+{
     private int $id;
     private int $user_id;
-    private int $activity_id;
+    private int $activite_id;
     private string $date_reservation;
-    private string $statut;
+    private int $etat;
+    private ?string $activite_nom;
+    private ?string $description;
+    private ?string $datetime_debut;
+    private ?int $duree;
+    private ?string $user_nom;
+    private ?string $user_prenom;
 
-    public function getId(): int 
+    // Getters
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getUserId(): int 
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    public function setUserId(int $user_id): self 
+    public function getActiviteId(): int
     {
-        $this->user_id = $user_id;
-        return $this;
+        return $this->activite_id;
     }
 
-    public function getActivityId(): int 
-    {
-        return $this->activity_id;
-    }
-
-    public function setActivityId(int $activity_id): self 
-    {
-        $this->activity_id = $activity_id;
-        return $this;
-    }
-
-    public function getDateReservation(): string 
+    public function getDateReservation(): string
     {
         return $this->date_reservation;
     }
 
-    public function setDateReservation(string $date_reservation): self 
+    public function getEtat(): bool
     {
-        $this->date_reservation = $date_reservation;
-        return $this;
+        return (bool) $this->etat;
     }
 
-    public function getStatut(): string 
+    public function getActiviteNom(): ?string
     {
-        return $this->statut;
+        return $this->activite_nom;
     }
 
-    public function setStatut(string $statut): self 
+    public function getDescription(): ?string
     {
-        $this->statut = $statut;
-        return $this;
+        return $this->description;
+    }
+
+    public function getDatetimeDebut(): ?string
+    {
+        return $this->datetime_debut;
+    }
+
+    public function getDuree(): ?int
+    {
+        return $this->duree;
+    }
+
+    public function getUserNom(): ?string
+    {
+        return $this->user_nom;
+    }
+
+    public function getUserPrenom(): ?string
+    {
+        return $this->user_prenom;
     }
 }

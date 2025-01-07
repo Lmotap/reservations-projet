@@ -2,6 +2,7 @@
 
 require_once './app/controllers/UserController.php';
 require_once './app/controllers/ActivityController.php';
+require_once './app/controllers/ReservationsController.php';
 require_once './app/models/ActiviteModel.php';
 
 class Router{
@@ -9,7 +10,8 @@ class Router{
   private $protectedRoutes = [
       'activities',
       'dashboard',
-      'user/profile'
+      'user/profile',
+      'reservations'
   ];
 
   // Define admin-only routes
@@ -17,7 +19,8 @@ class Router{
       'activities/create',
       'activities/update',
       'activities/delete',
-      'activities/test'
+      'activities/test',
+      'reservations/list'
   ];
 
   private $publicRoutes = [
@@ -32,6 +35,36 @@ class Router{
   {
     // Suppression des / en début et fin de chaine
     $url = trim($url, '/');
+
+    // Routes pour les réservations
+    if (strpos($url, 'reservations') === 0) {
+        $reservationController = new ReservationController();
+        
+        if ($url === 'reservations') {
+            $reservationController->index();
+            return;
+        }
+        
+        if ($url === 'reservations/create' && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $reservationController->create();
+            return;
+        }
+        
+        if (preg_match('#^reservations/show/(\d+)$#', $url, $matches)) {
+            $reservationController->show((int)$matches[1]);
+            return;
+        }
+        
+        if (preg_match('#^reservations/cancel/(\d+)$#', $url, $matches) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+            $reservationController->cancel((int)$matches[1]);
+            return;
+        }
+        
+        if ($url === 'reservations/list' && isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin') {
+            $reservationController->list();
+            return;
+        }
+    }
 
     // Si l'URL est vide, charger la page d'accueil (login dans ce cas)
     if(empty($url)){

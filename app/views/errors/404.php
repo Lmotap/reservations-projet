@@ -18,15 +18,17 @@
         </p>
         
         <div class="space-x-4">
-            <a href="/" 
-               class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
-                Retour à l'accueil
-            </a>
-            
-            <a href="/login" 
-               class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
-                Se connecter
-            </a>
+            <?php if (isset($_SESSION['user'])): ?>
+                <a href="<?= $_SESSION['user']['role'] === 'admin' ? '/dashboard' : '/activities' ?>" 
+                   class="inline-block bg-black hover:bg-darkgray text-white font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
+                    Retour à l'accueil
+                </a>
+            <?php else: ?>
+                <a href="/login" 
+                   class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold px-6 py-3 rounded-lg transition-colors duration-200">
+                    Se connecter
+                </a>
+            <?php endif; ?>
         </div>
         
         <div class="mt-8 text-sm text-gray-500">
