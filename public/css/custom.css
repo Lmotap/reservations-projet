@@ -1,0 +1,19 @@
+/* custom.css */
+.nav-link {
+    position: relative;
+    display: block;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: black;
+    transition: all 0.3s ease-in-out;
+    transform: translateX(-50%);
+}
+.nav-link:hover::after {
+    width: 100%;
+}
