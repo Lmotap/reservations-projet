@@ -13,7 +13,7 @@ class Router
     private $protectedRoutes = ['activities', 'dashboard', 'user/profile', 'reservations'];
 
     // Routes accessibles uniquement aux administrateurs
-    private $adminRoutes = ['activities/create', 'activities/update', 'activities/delete', 'reservations/list'];
+    private $adminRoutes = ['activities/create', 'activities/update', 'activities/delete', 'dashboard'];
 
     // Routes publiques accessibles sans authentification
     private $publicRoutes = ['', 'login', 'register', 'user/login', 'user/register'];
@@ -171,10 +171,6 @@ class Router
             case 'dashboard':
                 if (!isset($_SESSION['user'])) {
                     header('Location: /login');
-                    exit();
-                }
-                if ($_SESSION['user']['role'] !== 'admin') {
-                    header('Location: /activities');
                     exit();
                 }
                 $controller = new DashboardController();
