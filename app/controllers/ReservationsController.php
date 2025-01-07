@@ -26,10 +26,13 @@ class ReservationsController
     {
         AuthMiddleware::isAuthenticated();
         $userId = $_SESSION['user']['id'];
+        $isAdmin = isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';
         $reservations = $this->reservationModel->getReservationsByUserId($userId);
+
         $this->renderView('reservations/index', [
             'title' => 'Mes Réservations',
-            'reservations' => $reservations
+            'reservations' => $reservations,
+            'isAdmin' => $isAdmin
         ], 'reservations');
     }
 
@@ -48,7 +51,17 @@ class ReservationsController
         $activityId = (int) $_POST['activity_id'];
         $userId = $_SESSION['user']['id'];
 
+        // Vérifier d'abord les places disponibles
+        $activity = $this->activiteModel->getActivityById($activityId);
+        if ($activity['places_disponibles'] <= 0) {
+            $_SESSION['error'] = "Désolé, il n'y a plus de places disponibles pour cette activité.";
+            header('Location: /activities/show/' . $activityId);
+            exit();
+        }
+
+        // Tenter de créer la réservation
         if ($this->reservationModel->createReservation($userId, $activityId)) {
+            $_SESSION['success'] = 'Réservation créée avec succès.';
             header('Location: /reservations');
         } else {
             $_SESSION['error'] = 'Impossible de créer la réservation.';

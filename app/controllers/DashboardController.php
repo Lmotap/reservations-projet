@@ -25,7 +25,7 @@ class DashboardController
         AuthMiddleware::isAuthenticated();
         
         // Redirection des non-admin vers la liste des activités
-        if ($_SESSION['user']['role'] !== 'admin') {
+        if (AuthMiddleware::isAuthenticated()) {
             header('Location: /activities');
             exit();
         }

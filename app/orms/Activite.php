@@ -10,6 +10,7 @@ class Activite
     private ?string $image_url;
     private ?string $datetime_debut;
     private ?int $duree;
+    private ?string $type_nom;
 
     public function getId(): int
     {
@@ -90,6 +91,17 @@ class Activite
     public function setImageUrl(?string $image_url): self
     {
         $this->image_url = $image_url;
+        return $this;
+    }
+
+    public function getTypeNom(): ?string
+    {
+        return $this->type_nom;
+    }
+
+    public function setTypeNom(?string $type_nom): self
+    {
+        $this->type_nom = $type_nom;
         return $this;
     }
 }
