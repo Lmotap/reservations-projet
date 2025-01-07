@@ -20,6 +20,7 @@ Pour mettre en place et exécuter ce projet, suivez les étapes ci-dessous :
    - Installez Composer pour gérer les dépendances PHP du projet. 🎼
 
 4. **Environnement de développement (.env)**:
+
    - Configurez vos variables d'environnement en créant un fichier `.env` à la racine du projet.
 
    ```bash
