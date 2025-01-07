@@ -19,7 +19,8 @@ class ActiviteModel extends Bdd
     public function getAllActivities(): array
     {
         try {
-            $stmt = $this->db->prepare('SELECT * FROM activities');
+            $stmt = $this->db->prepare('SELECT a.*, t.nom as type_nom FROM activities a
+                                        LEFT JOIN type_activite t ON a.type_id = t.id');
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_CLASS, 'Activite');
         } catch (PDOException $e) {
@@ -36,7 +37,9 @@ class ActiviteModel extends Bdd
     public function getActivityById(int $id): array
     {
         try {
-            $stmt = $this->db->prepare('SELECT * FROM activities WHERE id = :id LIMIT 1');
+            $stmt = $this->db->prepare('SELECT a.*, t.nom as type_nom FROM activities a
+                                        LEFT JOIN type_activite t ON a.type_id = t.id
+                                        WHERE a.id = :id LIMIT 1');
             $stmt->execute(['id' => $id]);
             return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
         } catch (PDOException $e) {

@@ -104,12 +104,12 @@ class ReservationModel extends Bdd
             $reservation = $stmt->fetch();
 
             if (!$reservation) {
+                $this->db->rollBack();
                 return false;
             }
 
             // Met à jour l'état de la réservation
             $stmt = $this->db->prepare('UPDATE reservations SET etat = 0 WHERE id = :id AND etat = 1');
-
             $success = $stmt->execute(['id' => $reservationId]);
 
             if ($success) {
@@ -117,7 +117,7 @@ class ReservationModel extends Bdd
                 $stmt = $this->db->prepare(
                     'UPDATE activities 
                      SET places_disponibles = places_disponibles + 1 
-                     WHERE id = :activity_id',
+                     WHERE id = :activity_id'
                 );
                 $stmt->execute(['activity_id' => $reservation['activite_id']]);
             }

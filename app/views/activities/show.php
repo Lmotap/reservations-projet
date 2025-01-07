@@ -8,6 +8,7 @@ AuthMiddleware::isAuthenticated();
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($activity['nom']) ?> - Détails</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏨</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -21,25 +22,28 @@ AuthMiddleware::isAuthenticated();
             </a>
         </div>
 
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="bg-red-800 border text-white px-4 py-3 rounded relative mb-4">
+                <?= $_SESSION['error'] ?>
+                <?php unset($_SESSION['error']); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="bg-white rounded-lg shadow-md p-8">
             <h1 class="text-3xl font-bold text-gray-800 mb-8"><?= htmlspecialchars($activity['nom']) ?></h1>
             
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <div>
-                        <h2 class="text-sm font-medium text-gray-700 mb-2">Description</h2>
-                        <p class="text-gray-600"><?= htmlspecialchars($activity['description']) ?></p>
-                    </div>
-                    
-                    <div class="space-y-2">
-                        <h2 class="text-sm font-medium text-gray-700">Détails</h2>
-                        <div class="text-sm text-gray-500 space-y-2">
-                            <p>Date : <?= date('d/m/Y H:i', strtotime($activity['datetime_debut'])) ?></p>
-                            <p>Durée : <?= $activity['duree'] ?> minutes</p>
-                            <p class="text-darkgray font-medium text-xl">
-                                Places disponibles : <?= $activity['places_disponibles'] ?>
-                            </p>
-                        </div>
+            <div class="space-y-6">
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700 mb-2">Description</h2>
+                    <p class="text-gray-600"><?= htmlspecialchars($activity['description']) ?></p>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg">
+                    <h2 class="text-lg font-medium text-gray-700 mb-4">Détails</h2>
+                    <div class="text-sm text-gray-500 space-y-4">
+                        <p><i class="fas fa-calendar-alt fa-lg"></i> <span class="ml-2">Date : <?= date('d/m/Y H:i', strtotime($activity['datetime_debut'])) ?></span></p>
+                        <p><i class="fas fa-hourglass-start fa-lg"></i> <span class="ml-2">Durée : <?= $activity['duree'] ?> minutes</span></p>
+                        <p><i class="fas fa-chair fa-lg"></i> <span class="ml-2">Places disponibles : <?= $activity['places_disponibles'] ?></span></p>
                     </div>
                 </div>
 

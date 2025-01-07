@@ -1,20 +1,20 @@
 <!-- En-tête avec navigation -->
 <div class="flex flex-wrap justify-between items-center mb-8">
     <div class="flex flex-wrap items-center gap-6">
+        <?php if ($isAdmin): ?>
+            <a href="/dashboard" class="inline-flex items-center text-gray-600 hover:text-gray-800">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+            </a>
+        <?php endif; ?>
         <h1 class="text-xl md:text-3xl font-bold text-black">Liste des activités</h1>
         <div class="flex flex-wrap gap-4">
-            <?php if ($isAdmin): ?>
-                <a href="/dashboard" class="p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
-                    </svg>
-                </a>
-            <?php endif; ?>
             <a href="/reservations/index" class=" flex items-center gap-2 rounded-full p-2 bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-800 transition-colors">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
-                <span class="hidden md:inline">Voir mes activités</span>
+                <span class="hidden md:inline">Voir mes réservations</span>
             </a>
         </div>
     </div>
@@ -44,10 +44,15 @@
                 <h2 class="text-xl font-bold text-black mb-2">
                     <?= htmlspecialchars($activity->getNom()) ?>
                 </h2>
-                <p class="text-darkgray mb-4 flex-1">
+                
+                <p class="text-sm text-gray-600 mb-4">
+                    Type : <?= htmlspecialchars($activity->getTypeNom()) ?>
+                </p>
+
+                <p class="text-sm text-gray-600 mb-4 flex-1">
                     <?= htmlspecialchars($activity->getDescription()) ?>
                 </p>
-                <p class="text-darkgray mb-4 flex-1 text-lg">
+                <p class="text-lg font-bold text-gray-800 mb-4 flex-1">
                     Nombre de places disponibles : <?= htmlspecialchars($activity->getPlacesDisponibles()) ?>
                 </p>
                 <div class="mt-auto">
