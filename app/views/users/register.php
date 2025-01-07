@@ -86,7 +86,7 @@
             </button>
         </form>
 
-        <?php if(isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
+        <?php if (isset($_SESSION['errors']) && !empty($_SESSION['errors'])): ?>
             <div class="mt-6 space-y-2">
                 <?php foreach ($_SESSION['errors'] as $error): ?>
                     <p class="text-red-500 text-sm bg-red-50 p-3 rounded-md">
