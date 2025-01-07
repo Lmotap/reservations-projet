@@ -30,18 +30,20 @@ AuthMiddleware::isAdmin();
                     <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">Nom de l'activité</label>
                     <input type="text" id="nom" name="nom" 
                            value="<?= htmlspecialchars($activity['nom']) ?>" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required>
                 </div>
 
                 <div>
                     <label for="type_id" class="block text-sm font-medium text-gray-700 mb-2">Type d'activité</label>
                     <select id="type_id" name="type_id" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                             required>
-                        <option value="1" <?= $activity['type_id'] == 1 ? 'selected' : '' ?>>Sport</option>
-                        <option value="2" <?= $activity['type_id'] == 2 ? 'selected' : '' ?>>Culture</option>
-                        <option value="3" <?= $activity['type_id'] == 3 ? 'selected' : '' ?>>Loisir</option>
+                        <option value="1" <?= $activity['type_id'] == 1 ? 'selected' : '' ?>>Nature et aventure</option>
+                        <option value="2" <?= $activity['type_id'] == 2 ? 'selected' : '' ?>>Créativité et artisanat</option>
+                        <option value="3" <?= $activity['type_id'] == 3 ? 'selected' : '' ?>>Sport et adrénaline</option>
+                        <option value="4" <?= $activity['type_id'] == 4 ? 'selected' : '' ?>>Bien-être</option>
+                        <option value="5" <?= $activity['type_id'] == 5 ? 'selected' : '' ?>>Gastronomie</option>
                     </select>
                 </div>
 
@@ -49,7 +51,7 @@ AuthMiddleware::isAdmin();
                     <label for="places_disponibles" class="block text-sm font-medium text-gray-700 mb-2">Places disponibles</label>
                     <input type="number" id="places_disponibles" name="places_disponibles" 
                            value="<?= $activity['places_disponibles'] ?>" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required min="0">
                 </div>
 
@@ -57,14 +59,14 @@ AuthMiddleware::isAdmin();
                     <label for="image_url" class="block text-sm font-medium text-gray-700 mb-2">URL de l'image</label>
                     <input type="url" id="image_url" name="image_url" 
                            value="<?= htmlspecialchars($activity['image_url'] ?? '') ?>"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            placeholder="https://exemple.com/image.jpg">
                 </div>
 
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea id="description" name="description" rows="5" 
-                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                               required><?= htmlspecialchars($activity['description']) ?></textarea>
                 </div>
 
@@ -72,7 +74,7 @@ AuthMiddleware::isAdmin();
                     <label for="datetime_debut" class="block text-sm font-medium text-gray-700 mb-2">Date et heure de début</label>
                     <input type="datetime-local" id="datetime_debut" name="datetime_debut" 
                            value="<?= date('Y-m-d\TH:i', strtotime($activity['datetime_debut'])) ?>" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required>
                 </div>
 
@@ -80,7 +82,7 @@ AuthMiddleware::isAdmin();
                     <label for="duree" class="block text-sm font-medium text-gray-700 mb-2">Durée (en minutes)</label>
                     <input type="number" id="duree" name="duree" 
                            value="<?= $activity['duree'] ?>" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required min="0">
                 </div>
 
@@ -90,7 +92,7 @@ AuthMiddleware::isAdmin();
                         Annuler
                     </a>
                     <button type="submit" 
-                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            class="px-4 py-2 bg-black text-white rounded hover:bg-darkgray transition-colors">
                         Enregistrer les modifications
                     </button>
                 </div>

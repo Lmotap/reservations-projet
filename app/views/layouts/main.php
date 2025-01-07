@@ -29,19 +29,14 @@
                             Activités
                         </a>
                         <a href="/reservations" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2">
-                            Mes réservations
+                            Réservations
                         </a>
-                        <?php if ($_SESSION['user']['role'] === 'admin'): ?>
-                            <a href="/reservations/list" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2">
-                                Toutes les réservations
-                            </a>
-                        <?php endif; ?>
+                        <a href="/reservations/list" class="nav-link text-gray-600 hover:text-gray-900 px-3 py-2">
+                            Toutes les réservations
+                        </a>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <span class="text-gray-600 transform hover:scale-105 transition-transform duration-200">
-                        <?php echo htmlspecialchars($_SESSION['user']['prenom'] . ' ' . $_SESSION['user']['nom']); ?>
-                    </span>
                     <a href="/logout" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-800 hover:bg-darkgray transition-colors">
                         Déconnexion
                     </a>

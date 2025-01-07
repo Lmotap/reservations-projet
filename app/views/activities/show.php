@@ -22,13 +22,6 @@ AuthMiddleware::isAuthenticated();
         </div>
 
         <div class="bg-white rounded-lg shadow-md p-8">
-            <?php if ($activity['image_url']): ?>
-                <div class="mb-8">
-                    <img src="<?= htmlspecialchars($activity['image_url']) ?>" 
-                         alt="<?= htmlspecialchars($activity['nom']) ?>"
-                         class="w-full h-64 object-cover rounded-lg">
-                </div>
-            <?php endif; ?>
             <h1 class="text-3xl font-bold text-gray-800 mb-8"><?= htmlspecialchars($activity['nom']) ?></h1>
             
             <div class="grid md:grid-cols-2 gap-8">
