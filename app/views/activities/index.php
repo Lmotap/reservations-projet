@@ -34,7 +34,7 @@
     <?php foreach ($activities as $activity): ?>
         <div class="bg-white rounded-lg overflow-hidden flex flex-col">
             <?php if ($activity->getImageUrl()): ?>
-                <div class="h-32 w-full overflow-hidden">
+                <div class="h-72 w-72 overflow-hidden">
                     <img src="<?= htmlspecialchars($activity->getImageUrl()) ?>" 
                          alt="<?= htmlspecialchars($activity->getNom()) ?>"
                          class="w-full h-full object-cover transition-transform duration-300 hover:scale-105">
@@ -46,6 +46,9 @@
                 </h2>
                 <p class="text-darkgray mb-4 flex-1">
                     <?= htmlspecialchars($activity->getDescription()) ?>
+                </p>
+                <p class="text-darkgray mb-4 flex-1 text-lg">
+                    Nombre de places disponibles : <?= htmlspecialchars($activity->getPlacesDisponibles()) ?>
                 </p>
                 <div class="mt-auto">
                     <div class="flex gap-3">
