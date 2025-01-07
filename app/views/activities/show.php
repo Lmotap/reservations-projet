@@ -12,40 +12,64 @@ AuthMiddleware::isAuthenticated();
 </head>
 <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
-        <a href="/" class="nav-link inline-flex items-center mb-6">
-            ← Retour aux activités
-        </a>
+        <div class="flex gap-4 mb-6">
+            <a href="/activities" class="inline-flex items-center text-gray-600 hover:text-gray-800">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Retour à la liste
+            </a>
+        </div>
 
-        <div class="card p-8">
-            <h1 class="text-3xl font-light mb-6"><?= htmlspecialchars($activity['nom']) ?></h1>
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <?php if ($activity['image_url']): ?>
+                <div class="mb-8">
+                    <img src="<?= htmlspecialchars($activity['image_url']) ?>" 
+                         alt="<?= htmlspecialchars($activity['nom']) ?>"
+                         class="w-full h-64 object-cover rounded-lg">
+                </div>
+            <?php endif; ?>
+            <h1 class="text-3xl font-bold text-gray-800 mb-8"><?= htmlspecialchars($activity['nom']) ?></h1>
             
             <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-600 mb-4"><?= htmlspecialchars($activity['description']) ?></p>
-                    <div class="space-y-2 text-sm text-gray-500">
-                        <p>Date : <?= date('d/m/Y H:i', strtotime($activity['datetime_debut'])) ?></p>
-                        <p>Durée : <?= $activity['duree'] ?> minutes</p>
-                        <p class="text-rose-500 font-medium">
-                            Places disponibles : <?= $activity['places_disponibles'] ?>
-                        </p>
+                <div class="space-y-6">
+                    <div>
+                        <h2 class="text-sm font-medium text-gray-700 mb-2">Description</h2>
+                        <p class="text-gray-600"><?= htmlspecialchars($activity['description']) ?></p>
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <h2 class="text-sm font-medium text-gray-700">Détails</h2>
+                        <div class="text-sm text-gray-500 space-y-2">
+                            <p>Date : <?= date('d/m/Y H:i', strtotime($activity['datetime_debut'])) ?></p>
+                            <p>Durée : <?= $activity['duree'] ?> minutes</p>
+                            <p class="text-darkgray font-medium text-xl">
+                                Places disponibles : <?= $activity['places_disponibles'] ?>
+                            </p>
+                        </div>
                     </div>
                 </div>
 
                 <div class="flex flex-col gap-4">
                     <?php if ($isAdmin): ?>
-                        <a href="/activities/update/<?= $activity['id'] ?>" class="btn-secondary">
+                        <a href="/activities/update/<?= $activity['id'] ?>" 
+                           class="w-full px-4 py-2 bg-black text-white rounded hover:bg-darkgray transition-colors text-center">
                             Modifier
                         </a>
                         <form action="/activities/delete/<?= $activity['id'] ?>" 
                               method="POST"
                               onsubmit="return confirm('Êtes-vous sûr ?');">
-                            <button type="submit" class="btn-danger w-full">Supprimer</button>
+                            <button type="submit" 
+                                    class="w-full px-4 py-2 bg-red-800 text-white rounded hover:bg-darkgray transition-colors">
+                                Supprimer
+                            </button>
                         </form>
                     <?php else: ?>
                         <form action="/reservations/create" method="POST">
                             <input type="hidden" name="activity_id" value="<?= $activity['id'] ?>">
                             <button type="submit" 
-                                    class="btn-primary w-full <?= $activity['places_disponibles'] <= 0 ? 'opacity-50 cursor-not-allowed' : '' ?>"
+                                    class="w-full px-4 py-2 bg-black text-white rounded hover:bg-darkgray transition-colors
+                                           <?= $activity['places_disponibles'] <= 0 ? 'opacity-50 cursor-not-allowed' : '' ?>"
                                     <?= $activity['places_disponibles'] <= 0 ? 'disabled' : '' ?>>
                                 Réserver
                             </button>

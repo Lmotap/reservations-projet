@@ -27,47 +27,56 @@ AuthMiddleware::isAdmin();
                 <div>
                     <label for="nom" class="block text-sm font-medium text-gray-700 mb-2">Nom de l'activité</label>
                     <input type="text" id="nom" name="nom" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required>
                 </div>
 
                 <div>
                     <label for="type_id" class="block text-sm font-medium text-gray-700 mb-2">Type d'activité</label>
                     <select id="type_id" name="type_id" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                             required>
                         <option value="">Sélectionnez un type</option>
-                        <option value="1">Sport</option>
-                        <option value="2">Culture</option>
-                        <option value="3">Loisir</option>
+                        <option value="1">Nature et aventure</option>
+                        <option value="2">Créativité et artisanat</option>
+                        <option value="3">Sport et adrénaline</option>
+                        <option value="4">Bien-être</option>
+                        <option value="5">Gastronomie</option>
                     </select>
                 </div>
 
                 <div>
                     <label for="places_disponibles" class="block text-sm font-medium text-gray-700 mb-2">Places disponibles</label>
                     <input type="number" id="places_disponibles" name="places_disponibles" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required min="0">
+                </div>
+
+                <div>
+                    <label for="image_url" class="block text-sm font-medium text-gray-700 mb-2">URL de l'image</label>
+                    <input type="url" id="image_url" name="image_url" 
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
+                           placeholder="https://exemple.com/image.jpg">
                 </div>
 
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea id="description" name="description" rows="5" 
-                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                               required></textarea>
                 </div>
 
                 <div>
                     <label for="datetime_debut" class="block text-sm font-medium text-gray-700 mb-2">Date et heure de début</label>
                     <input type="datetime-local" id="datetime_debut" name="datetime_debut" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required>
                 </div>
 
                 <div>
                     <label for="duree" class="block text-sm font-medium text-gray-700 mb-2">Durée (en minutes)</label>
                     <input type="number" id="duree" name="duree" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-black focus:border-black"
                            required min="0">
                 </div>
 
@@ -77,7 +86,7 @@ AuthMiddleware::isAdmin();
                         Annuler
                     </a>
                     <button type="submit" 
-                            class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                            class="px-4 py-2 bg-black text-white rounded hover:bg-darkgray transition-colors">
                         Créer l'activité
                     </button>
                 </div>
